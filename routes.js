@@ -2,14 +2,16 @@ const express = require("express");
 const router = express.Router;
 const User = require("./moduls/users");
 const Movie = require("./moduls/movies")
-const app = express();
+const express = require("express"); 
+const router = express.Router(); 
 
 
 
-router.get("/", (req,res) => {
-    res.status(200).send("<h1>Mangoose</h1>");
-
+router.get("/", async(req, res) => {
+    const users = await user.find({});
+    res.status(200).json(users);
 });
+
 router.Post("/", (req,res)=>{
     let name = req.body.name;
     let email = req.body.email;
