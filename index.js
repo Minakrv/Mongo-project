@@ -1,12 +1,13 @@
 const express = require("express"); 
 const mongoose = require("mongoose"); 
-const User = require("./models/user");
+const User = require("./moduls/users");
 const app = express(); 
-const userRouter = require("./routes");
-require("dotenv").config(); 
+const movieRouter = require("./routes/movie");
 
-app.use(express.json()); 
-app.use("/users", userRouter); 
+
+const registerRouter = require("./routes/register");
+const userRouter = require("./routes/user");
+require("dotenv").config(); 
 
 const port = process.env.PORT || 5000; 
 
@@ -16,7 +17,7 @@ const server = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log("it is connected"); 
+        console.log("Server is connected"); 
     } catch (err) {
         console.log(err);
     }
@@ -24,17 +25,15 @@ const server = async () => {
 
 server(); 
 
-const user = new User({
-    name: "Mina",
-    email: "mnkrv@yahoo.com", 
-    password: "Leo"
-});
+app.use(express.json()); 
+app.use("/movie", movieRouter);
+app.use("/register", registerRouter);
+app.use("/user", userRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`); 
 });
 
-app.get("/", async (req, res) => {
-    await user.save(); 
-    res.send("<h1>Hello World</h1>")
+app.get("/", async(req, res) => { 
+    res.send("<h1>Hello Mina</h1>")
 })
