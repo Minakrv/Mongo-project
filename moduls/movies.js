@@ -1,11 +1,33 @@
 const mongoose = require("mongoose");
-const { INTEGER } = require("sequelize/types");
+const { Schema } = require("mongoose");
 
 
-const movie = new mongoose.Schema({
-    name: { type: String, required: true },
-    year: { type: INTEGER, required: true },
-    type: { type: String, required: false },
+const Movie = new mongoose.Schema({
+    name: { 
+        type: String, 
+        required: true 
+    },
+    year: {
+        type: String, 
+        required: true 
+    },
+    type: {
+        type: String, 
+        required: false 
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "Owner",
+        required: true
+    }
 });
 
-module.exports = mongoose.model("movies", movie);
+module.exports = mongoose.model("movies", Movie);
+
+
+
+
+
+    
+    
+    

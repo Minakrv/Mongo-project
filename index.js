@@ -1,17 +1,39 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const User = require("./models/users");
-const userRouter = require("./routes");
+const express = require("express"); 
+const mongoose = require("mongoose"); 
+const User = require("./moduls/users");
+const app = express(); 
+const movieRouter = require("./routes/movie");
 
-const app = express();
-app.use(express.json());
-app.use("/users", userRouter)
 
-mongoose.connect("mongodb://localhost:27017/signup", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const registerRouter = require("./routes/register");
+const userRouter = require("./routes/user");
+require("dotenv").config(); 
+
+const port = process.env.PORT || 5000; 
+
+const server = async () => {
+    try {
+        await mongoose.connect("mongodb://localhost:27017/signup", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("Server is connected"); 
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+server(); 
+
+app.use(express.json()); 
+app.use("/movie", movieRouter);
+app.use("/register", registerRouter);
+app.use("/user", userRouter);
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`); 
 });
 
-app.listen(3000, ()=>{ 
-  console.log("listening to port 3000");
-});
+app.get("/", async(req, res) => { 
+    res.send("<h1>Hello Mina</h1>")
+})
